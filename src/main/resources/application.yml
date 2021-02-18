@@ -1,0 +1,17 @@
+server:
+  port: ${PORT:8091}
+spring:
+  datasource:
+    url: ${SPRING_DATASOURCE_URL:jdbc:postgresql://0.0.0.0:5434/testdb}
+
+    username: postgres
+    password: password
+
+  liquibase:
+    enabled: true
+    change-log: classpath:db/changelog/db.changelog-master.yaml
+    contexts: dev
+  jpa:
+    hibernate:
+      ddl-auto: update
+    show-sql: true
