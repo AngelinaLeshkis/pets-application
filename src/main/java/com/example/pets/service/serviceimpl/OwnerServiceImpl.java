@@ -1,13 +1,13 @@
 package com.example.pets.service.serviceimpl;
 
 import com.example.pets.entity.Owner;
-import com.example.pets.exception.OwnerNotFoundException;
 import com.example.pets.persistence.OwnerRepository;
 import com.example.pets.persistence.PetRepository;
 import com.example.pets.service.OwnerService;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import javax.persistence.EntityNotFoundException;
 import javax.transaction.Transactional;
 import java.util.List;
 
@@ -38,7 +38,7 @@ public class OwnerServiceImpl implements OwnerService {
     @Override
     public Owner getOwnerById(long id) {
         return ownerRepository.findById(id)
-                .orElseThrow(() -> new OwnerNotFoundException(id));
+                .orElseThrow(EntityNotFoundException::new);
     }
 
     @Override

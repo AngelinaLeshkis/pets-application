@@ -1,6 +1,8 @@
 package com.example.pets.mapper;
 
 import com.example.pets.dto.CatDTO;
+import com.example.pets.dto.CreateCatDTO;
+import com.example.pets.dto.CreateDogDTO;
 import com.example.pets.dto.DogDTO;
 import com.example.pets.dto.PetDTO;
 import com.example.pets.entity.Cat;
@@ -38,6 +40,40 @@ public final class PetMapper {
                 .id(pet.getId())
                 .name(pet.getName())
                 .age(pet.getAge())
+                .build();
+    }
+
+    public static Cat toCat(CreateCatDTO catDTO) {
+        return Cat.catBuilder()
+                .name(catDTO.getName())
+                .age(catDTO.getAge())
+                .view(catDTO.getView())
+                .build();
+    }
+
+    public static Dog toDog(CreateDogDTO dogDTO) {
+        return Dog.dogBuilder()
+                .name(dogDTO.getName())
+                .age(dogDTO.getAge())
+                .breed(dogDTO.getBreed())
+                .build();
+    }
+
+    public static Cat updateCat(CreateCatDTO catDTO, long id) {
+        return Cat.catBuilder()
+                .id(id)
+                .name(catDTO.getName())
+                .age(catDTO.getAge())
+                .view(catDTO.getView())
+                .build();
+    }
+
+    public static Dog updateDog(CreateDogDTO dogDTO, long id) {
+        return Dog.dogBuilder()
+                .id(id)
+                .name(dogDTO.getName())
+                .age(dogDTO.getAge())
+                .breed(dogDTO.getBreed())
                 .build();
     }
 }

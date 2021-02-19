@@ -2,13 +2,13 @@ package com.example.pets.service.serviceimpl;
 
 import com.example.pets.dto.PetDTO;
 import com.example.pets.entity.Pet;
-import com.example.pets.exception.PetNotFoundException;
 import com.example.pets.mapper.PetMapper;
 import com.example.pets.persistence.PetRepository;
 import com.example.pets.service.PetService;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import javax.persistence.EntityNotFoundException;
 import javax.transaction.Transactional;
 import java.util.List;
 
@@ -29,7 +29,7 @@ public class PetServiceImpl implements PetService {
     @Override
     public Pet getPetById(long id) {
         return petRepository.findById(id)
-                .orElseThrow(() -> new PetNotFoundException(id));
+                .orElseThrow(EntityNotFoundException::new);
     }
 
     @Override

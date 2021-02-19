@@ -1,5 +1,7 @@
 package com.example.pets.entity;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import lombok.AllArgsConstructor;
 import lombok.Data;
 
 import javax.persistence.Column;
@@ -22,6 +24,7 @@ import static javax.persistence.InheritanceType.SINGLE_TABLE;
 @Table(name = "pet")
 @Inheritance(strategy = SINGLE_TABLE)
 @Data
+@AllArgsConstructor
 @DiscriminatorColumn(discriminatorType = STRING, name = "TYPE")
 public abstract class Pet {
 
@@ -35,6 +38,7 @@ public abstract class Pet {
     @Column(name = "age", nullable = false)
     private double age;
 
+    @JsonBackReference
     @ManyToOne(fetch = LAZY)
     @JoinColumn(name = "owner_id", nullable = false)
     private Owner owner;
