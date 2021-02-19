@@ -19,7 +19,7 @@ import static javax.persistence.InheritanceType.SINGLE_TABLE;
 
 
 @Entity
-@Table(name = "pet", catalog = "testdb")
+@Table(name = "pet")
 @Inheritance(strategy = SINGLE_TABLE)
 @Data
 @DiscriminatorColumn(discriminatorType = STRING, name = "TYPE")

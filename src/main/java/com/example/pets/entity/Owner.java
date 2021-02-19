@@ -13,7 +13,7 @@ import java.util.List;
 import static javax.persistence.GenerationType.IDENTITY;
 
 @Entity
-@Table(name = "owner", catalog = "testdb")
+@Table(name = "owner")
 @Data
 public class Owner {
 
