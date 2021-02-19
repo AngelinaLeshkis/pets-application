@@ -38,7 +38,7 @@ public class CatController {
             catService.update(cat, ownerId, id);
             return new ResponseEntity<>(HttpStatus.OK);
         } catch (Exception ex) {
-            return new ResponseEntity<>(ex.getMessage(), HttpStatus.NOT_FOUND);
+            return new ResponseEntity<>(ex.getMessage(), HttpStatus.NO_CONTENT);
         }
     }
 
@@ -53,7 +53,7 @@ public class CatController {
             Cat catFromDB = catService.getById(id);
             return new ResponseEntity<>(toCatDto(catFromDB), HttpStatus.OK);
         } catch (Exception ex) {
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
         }
     }
 }

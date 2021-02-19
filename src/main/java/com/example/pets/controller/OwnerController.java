@@ -35,7 +35,7 @@ public class OwnerController {
             ownerService.updateOwner(owner, id);
             return new ResponseEntity<>(owner, HttpStatus.OK);
         } catch (Exception ex) {
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
         }
     }
 
@@ -45,7 +45,7 @@ public class OwnerController {
             ownerService.deleteOwner(id);
             return new ResponseEntity<>(HttpStatus.OK);
         } catch (OwnerNotFoundException ex) {
-            return new ResponseEntity<>(ex.getMessage(), HttpStatus.NOT_FOUND);
+            return new ResponseEntity<>(ex.getMessage(), HttpStatus.NO_CONTENT);
         }
     }
 
@@ -59,7 +59,7 @@ public class OwnerController {
         try {
             return new ResponseEntity<>(ownerService.getOwnerById(id), HttpStatus.OK);
         } catch (OwnerNotFoundException ex) {
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
         }
     }
 
@@ -68,7 +68,7 @@ public class OwnerController {
         try {
             return new ResponseEntity<>(ownerService.getOwnerById(id), HttpStatus.OK);
         } catch (OwnerNotFoundException ex) {
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
         }
     }
 }

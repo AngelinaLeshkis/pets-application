@@ -39,7 +39,7 @@ public class DogController {
             dogService.update(dog, ownerId, id);
             return new ResponseEntity<>(HttpStatus.OK);
         } catch (Exception ex) {
-            return new ResponseEntity<>(ex.getMessage(), HttpStatus.NOT_FOUND);
+            return new ResponseEntity<>(ex.getMessage(), HttpStatus.NO_CONTENT);
         }
     }
 
@@ -54,7 +54,7 @@ public class DogController {
             Dog dogFromDB = dogService.getById(id);
             return new ResponseEntity<>(toDogDto(dogFromDB), HttpStatus.OK);
         } catch (PetNotFoundException ex) {
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
         }
     }
 }

@@ -31,7 +31,7 @@ public class PetController {
             petService.deletePet(id);
             return new ResponseEntity<>(HttpStatus.OK);
         } catch (Exception ex) {
-            return new ResponseEntity<>(ex.getMessage(), HttpStatus.NOT_FOUND);
+            return new ResponseEntity<>(ex.getMessage(), HttpStatus.NO_CONTENT);
         }
     }
 
