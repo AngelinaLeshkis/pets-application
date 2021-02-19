@@ -1,7 +1,7 @@
 package com.example.pets.service;
 
-import com.example.pets.entity.Pet;
 import com.example.pets.dto.PetDTO;
+import com.example.pets.entity.Pet;
 
 import java.util.List;
 

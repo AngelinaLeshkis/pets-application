@@ -9,7 +9,7 @@ import javax.persistence.Entity;
 @Entity
 @Data
 @DiscriminatorValue("Dog")
-public class Dog extends Pet{
+public class Dog extends Pet {
 
     @Column(name = "breed")
     private String breed;

@@ -1,12 +1,14 @@
 package com.example.pets.service.serviceimpl;
 
 import com.example.pets.entity.Owner;
+import com.example.pets.exception.OwnerNotFoundException;
 import com.example.pets.persistence.OwnerRepository;
 import com.example.pets.persistence.PetRepository;
 import com.example.pets.service.OwnerService;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import javax.transaction.Transactional;
 import java.util.List;
 
 @Service
@@ -22,6 +24,7 @@ public class OwnerServiceImpl implements OwnerService {
     }
 
     @Override
+    @Transactional
     public void deleteOwner(long id) {
         ownerRepository.delete(getOwnerById(id));
     }
@@ -35,7 +38,7 @@ public class OwnerServiceImpl implements OwnerService {
     @Override
     public Owner getOwnerById(long id) {
         return ownerRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("The owner with such id not found"));
+                .orElseThrow(() -> new OwnerNotFoundException(id));
     }
 
     @Override
@@ -44,6 +47,7 @@ public class OwnerServiceImpl implements OwnerService {
     }
 
     @Override
+    @Transactional
     public Owner getOwnerByPetId(long id) {
         return getOwnerById(petRepository.findOwnerIdById(id));
     }

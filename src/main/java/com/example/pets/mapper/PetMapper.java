@@ -2,10 +2,10 @@ package com.example.pets.mapper;
 
 import com.example.pets.dto.CatDTO;
 import com.example.pets.dto.DogDTO;
+import com.example.pets.dto.PetDTO;
 import com.example.pets.entity.Cat;
 import com.example.pets.entity.Dog;
 import com.example.pets.entity.Pet;
-import com.example.pets.dto.PetDTO;
 import lombok.NoArgsConstructor;
 
 import static lombok.AccessLevel.PRIVATE;

@@ -11,6 +11,7 @@ import com.example.pets.service.DogService;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import javax.transaction.Transactional;
 import java.util.List;
 
 import static com.example.pets.mapper.PetMapper.toDogDto;
@@ -24,6 +25,7 @@ public class DogServiceImpl implements DogService {
     private final OwnerRepository ownerRepository;
 
     @Override
+    @Transactional
     public DogDTO save(Dog dog, long ownerId) {
         dog.setOwner(ownerRepository.findById(ownerId)
                 .orElseThrow(() -> new OwnerNotFoundException(ownerId)));
@@ -32,6 +34,7 @@ public class DogServiceImpl implements DogService {
     }
 
     @Override
+    @Transactional
     public DogDTO update(Dog dog, long ownerId, long id) {
         dog.setOwner(ownerRepository.findById(ownerId)
                 .orElseThrow(() -> new OwnerNotFoundException(ownerId)));

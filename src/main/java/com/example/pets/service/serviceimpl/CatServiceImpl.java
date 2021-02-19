@@ -11,6 +11,7 @@ import com.example.pets.service.CatService;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import javax.transaction.Transactional;
 import java.util.List;
 
 import static com.example.pets.mapper.PetMapper.toCatDto;
@@ -24,6 +25,7 @@ public class CatServiceImpl implements CatService {
     private final OwnerRepository ownerRepository;
 
     @Override
+    @Transactional
     public CatDTO save(Cat cat, long ownerId) {
         cat.setOwner(ownerRepository.findById(ownerId)
                 .orElseThrow(() -> new OwnerNotFoundException(ownerId)));
@@ -32,6 +34,7 @@ public class CatServiceImpl implements CatService {
     }
 
     @Override
+    @Transactional
     public CatDTO update(Cat cat, long ownerId, long id) {
         cat.setOwner(ownerRepository.findById(ownerId)
                 .orElseThrow(() -> new OwnerNotFoundException(ownerId)));
