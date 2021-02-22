@@ -8,7 +8,7 @@ import com.example.pets.service.CatService;
 import com.example.pets.service.DogService;
 import com.example.pets.service.OwnerService;
 import com.example.pets.service.PetService;
-import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -28,7 +28,7 @@ import static org.springframework.http.HttpStatus.OK;
 
 @RestController
 @RequestMapping(value = "/owners")
-@AllArgsConstructor
+@RequiredArgsConstructor
 public class OwnerController {
 
     private final OwnerService ownerService;

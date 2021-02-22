@@ -7,6 +7,7 @@ import com.example.pets.dto.DogDTO;
 import com.example.pets.dto.PetDTO;
 import com.example.pets.entity.Cat;
 import com.example.pets.entity.Dog;
+import com.example.pets.entity.Owner;
 import com.example.pets.entity.Pet;
 import lombok.NoArgsConstructor;
 
@@ -43,18 +44,20 @@ public final class PetMapper {
                 .build();
     }
 
-    public static Cat toCat(CreateCatDTO catDTO) {
+    public static Cat toCat(CreateCatDTO catDTO, Owner owner) {
         return Cat.catBuilder()
                 .name(catDTO.getName())
                 .age(catDTO.getAge())
+                .owner(owner)
                 .view(catDTO.getView())
                 .build();
     }
 
-    public static Dog toDog(CreateDogDTO dogDTO) {
+    public static Dog toDog(CreateDogDTO dogDTO, Owner owner) {
         return Dog.dogBuilder()
                 .name(dogDTO.getName())
                 .age(dogDTO.getAge())
+                .owner(owner)
                 .breed(dogDTO.getBreed())
                 .build();
     }

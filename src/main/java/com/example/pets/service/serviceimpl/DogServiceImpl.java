@@ -3,8 +3,10 @@ package com.example.pets.service.serviceimpl;
 import com.example.pets.dto.CreateDogDTO;
 import com.example.pets.dto.DogDTO;
 import com.example.pets.entity.Dog;
+import com.example.pets.entity.Owner;
 import com.example.pets.mapper.PetMapper;
 import com.example.pets.persistence.DogRepository;
+import com.example.pets.persistence.OwnerRepository;
 import com.example.pets.service.DogService;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -23,11 +25,14 @@ import static java.util.stream.Collectors.toList;
 public class DogServiceImpl implements DogService {
 
     private final DogRepository dogRepository;
+    private final OwnerRepository ownerRepository;
 
     @Override
     @Transactional
     public DogDTO save(CreateDogDTO dog) {
-        return toDogDto(dogRepository.save(toDog(dog)));
+        Owner ownerFromDB = ownerRepository.findById(dog.getOwnerId())
+                .orElseThrow(EntityNotFoundException::new);
+        return toDogDto(dogRepository.save(toDog(dog, ownerFromDB)));
     }
 
     @Override

@@ -3,8 +3,10 @@ package com.example.pets.service.serviceimpl;
 import com.example.pets.dto.CatDTO;
 import com.example.pets.dto.CreateCatDTO;
 import com.example.pets.entity.Cat;
+import com.example.pets.entity.Owner;
 import com.example.pets.mapper.PetMapper;
 import com.example.pets.persistence.CatRepository;
+import com.example.pets.persistence.OwnerRepository;
 import com.example.pets.service.CatService;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -23,11 +25,14 @@ import static java.util.stream.Collectors.toList;
 public class CatServiceImpl implements CatService {
 
     private final CatRepository catRepository;
+    private final OwnerRepository ownerRepository;
 
     @Override
     @Transactional
     public CatDTO saveCat(CreateCatDTO cat) {
-        return toCatDto(catRepository.save(toCat(cat)));
+        Owner ownerFromDB = ownerRepository.findById(cat.getOwnerId())
+                .orElseThrow(EntityNotFoundException::new);
+        return toCatDto(catRepository.save(toCat(cat, ownerFromDB)));
     }
 
     @Override

@@ -1,7 +1,7 @@
 package com.example.pets.controller;
 
 import com.example.pets.service.PetService;
-import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -15,7 +15,7 @@ import static org.springframework.http.HttpStatus.OK;
 
 @RestController
 @RequestMapping(value = "/pets")
-@AllArgsConstructor
+@RequiredArgsConstructor
 public class PetController {
 
     private final PetService petService;

@@ -3,6 +3,7 @@ package com.example.pets.entity;
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import javax.persistence.Column;
 import javax.persistence.DiscriminatorColumn;
@@ -25,6 +26,7 @@ import static javax.persistence.InheritanceType.SINGLE_TABLE;
 @Inheritance(strategy = SINGLE_TABLE)
 @Data
 @AllArgsConstructor
+@NoArgsConstructor
 @DiscriminatorColumn(discriminatorType = STRING, name = "TYPE")
 public abstract class Pet {
 

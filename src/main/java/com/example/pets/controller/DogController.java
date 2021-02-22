@@ -4,7 +4,7 @@ import com.example.pets.dto.CreateDogDTO;
 import com.example.pets.dto.DogDTO;
 import com.example.pets.entity.Dog;
 import com.example.pets.service.DogService;
-import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -23,7 +23,7 @@ import static org.springframework.http.HttpStatus.OK;
 
 @RestController
 @RequestMapping(value = "/dogs")
-@AllArgsConstructor
+@RequiredArgsConstructor
 public class DogController {
 
     private final DogService dogService;
