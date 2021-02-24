@@ -8,12 +8,12 @@ import java.util.List;
 
 public interface CatService {
 
-    CatDTO saveCat(CreateCatDTO cat);
+    CatDTO save(CreateCatDTO cat);
 
     CatDTO update(CreateCatDTO cat, long id);
 
-    List<CatDTO> getAllCatsByOwnerId(long id);
+    List<CatDTO> getAllByOwnerId(long id);
 
-    Cat getCatById(long id);
+    Cat getById(long id);
 
 }

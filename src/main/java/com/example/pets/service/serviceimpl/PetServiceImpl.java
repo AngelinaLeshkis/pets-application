@@ -6,6 +6,7 @@ import com.example.pets.mapper.PetMapper;
 import com.example.pets.persistence.PetRepository;
 import com.example.pets.service.PetService;
 import lombok.AllArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import javax.persistence.EntityNotFoundException;
@@ -14,6 +15,7 @@ import java.util.List;
 
 import static java.util.stream.Collectors.toList;
 
+@Slf4j
 @Service
 @AllArgsConstructor
 public class PetServiceImpl implements PetService {
@@ -22,23 +24,24 @@ public class PetServiceImpl implements PetService {
 
     @Override
     @Transactional
-    public void deletePet(long id) {
-        petRepository.delete(getPetById(id));
+    public void delete(long id) {
+        petRepository.delete(getById(id));
     }
 
     @Override
-    public Pet getPetById(long id) {
+    public Pet getById(long id) {
         return petRepository.findById(id)
-                .orElseThrow(EntityNotFoundException::new);
+                .orElseThrow(() -> new EntityNotFoundException(Pet.class +
+                        " not found with " + id));
     }
 
     @Override
-    public List<Pet> getAllPets() {
+    public List<Pet> getAll() {
         return petRepository.findAll();
     }
 
     @Override
-    public List<PetDTO> getPetsByOwnerId(long id) {
+    public List<PetDTO> getAllByOwnerId(long id) {
         return petRepository.findPetsByOwnerId(id).stream()
                 .map(PetMapper::toDto)
                 .collect(toList());

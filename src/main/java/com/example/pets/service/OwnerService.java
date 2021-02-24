@@ -1,20 +1,21 @@
 package com.example.pets.service;
 
+import com.example.pets.dto.OwnerDTO;
 import com.example.pets.entity.Owner;
 
 import java.util.List;
 
 public interface OwnerService {
 
-    Owner saveOwner(Owner owner);
+    OwnerDTO save(Owner owner);
 
-    void deleteOwner(long id);
+    void delete(long id);
 
-    Owner updateOwner(Owner owner, long id);
+    OwnerDTO update(Owner owner, long id);
 
-    Owner getOwnerById(long id);
+    OwnerDTO getById(long id);
 
-    List<Owner> getAllOwners();
+    List<OwnerDTO> getAll();
 
-    Owner getOwnerByPetId(long id);
+    OwnerDTO getByPetId(long id);
 }

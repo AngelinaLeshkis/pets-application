@@ -1,16 +1,23 @@
 package com.example.pets.service.serviceimpl;
 
+import com.example.pets.dto.OwnerDTO;
 import com.example.pets.entity.Owner;
+import com.example.pets.mapper.OwnerMapper;
 import com.example.pets.persistence.OwnerRepository;
 import com.example.pets.persistence.PetRepository;
 import com.example.pets.service.OwnerService;
 import lombok.AllArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import javax.persistence.EntityNotFoundException;
 import javax.transaction.Transactional;
 import java.util.List;
 
+import static com.example.pets.mapper.OwnerMapper.toOwnerDTO;
+import static java.util.stream.Collectors.toList;
+
+@Slf4j
 @Service
 @AllArgsConstructor
 public class OwnerServiceImpl implements OwnerService {
@@ -19,36 +26,48 @@ public class OwnerServiceImpl implements OwnerService {
     private final PetRepository petRepository;
 
     @Override
-    public Owner saveOwner(Owner owner) {
-        return ownerRepository.save(owner);
+    public OwnerDTO save(Owner owner) {
+        ownerRepository.save(owner);
+        return toOwnerDTO(owner);
     }
 
     @Override
     @Transactional
-    public void deleteOwner(long id) {
-        ownerRepository.delete(getOwnerById(id));
+    public void delete(long id) {
+        Owner ownerFromDB = ownerRepository.findById(id)
+                .orElseThrow(() -> new EntityNotFoundException(Owner.class +
+                        " not found with " + id));
+        ownerRepository.delete(ownerFromDB);
     }
 
     @Override
-    public Owner updateOwner(Owner owner, long id) {
+    public OwnerDTO update(Owner owner, long id) {
         owner.setId(id);
-        return ownerRepository.save(owner);
+        ownerRepository.save(owner);
+        return toOwnerDTO(owner);
     }
 
     @Override
-    public Owner getOwnerById(long id) {
-        return ownerRepository.findById(id)
-                .orElseThrow(EntityNotFoundException::new);
+    public OwnerDTO getById(long id) {
+        Owner ownerFromDB = ownerRepository.findById(id)
+                .orElseThrow(() -> new EntityNotFoundException(Owner.class +
+                        " not found with " + id));
+        return toOwnerDTO(ownerFromDB);
     }
 
     @Override
-    public List<Owner> getAllOwners() {
-        return ownerRepository.findAll();
+    public List<OwnerDTO> getAll() {
+        List<Owner> owners = ownerRepository.findAll();
+        return owners.stream()
+                .map(OwnerMapper::toOwnerDTO)
+                .collect(toList());
     }
 
     @Override
     @Transactional
-    public Owner getOwnerByPetId(long id) {
-        return getOwnerById(petRepository.findOwnerIdById(id));
+    public OwnerDTO getByPetId(long id) {
+        long ownerId = petRepository.findOwnerIdById(id);
+        return getById(ownerId);
     }
+
 }

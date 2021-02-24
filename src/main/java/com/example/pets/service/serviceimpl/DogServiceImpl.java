@@ -9,6 +9,7 @@ import com.example.pets.persistence.DogRepository;
 import com.example.pets.persistence.OwnerRepository;
 import com.example.pets.service.DogService;
 import lombok.AllArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import javax.persistence.EntityNotFoundException;
@@ -20,6 +21,7 @@ import static com.example.pets.mapper.PetMapper.toDogDto;
 import static com.example.pets.mapper.PetMapper.updateDog;
 import static java.util.stream.Collectors.toList;
 
+@Slf4j
 @Service
 @AllArgsConstructor
 public class DogServiceImpl implements DogService {
@@ -31,7 +33,8 @@ public class DogServiceImpl implements DogService {
     @Transactional
     public DogDTO save(CreateDogDTO dog) {
         Owner ownerFromDB = ownerRepository.findById(dog.getOwnerId())
-                .orElseThrow(EntityNotFoundException::new);
+                .orElseThrow(() -> new EntityNotFoundException(Owner.class +
+                        " not found"));
         return toDogDto(dogRepository.save(toDog(dog, ownerFromDB)));
     }
 
@@ -51,6 +54,7 @@ public class DogServiceImpl implements DogService {
     @Override
     public Dog getById(long id) {
         return dogRepository.findById(id)
-                .orElseThrow(EntityNotFoundException::new);
+                .orElseThrow(() -> new EntityNotFoundException(Dog.class +
+                        " not found with " + id));
     }
 }
