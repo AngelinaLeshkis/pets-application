@@ -9,6 +9,7 @@ import com.example.pets.persistence.CatRepository;
 import com.example.pets.persistence.OwnerRepository;
 import com.example.pets.service.CatService;
 import lombok.AllArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import javax.persistence.EntityNotFoundException;
@@ -20,6 +21,7 @@ import static com.example.pets.mapper.PetMapper.toCatDto;
 import static com.example.pets.mapper.PetMapper.updateCat;
 import static java.util.stream.Collectors.toList;
 
+@Slf4j
 @Service
 @AllArgsConstructor
 public class CatServiceImpl implements CatService {
@@ -29,9 +31,11 @@ public class CatServiceImpl implements CatService {
 
     @Override
     @Transactional
-    public CatDTO saveCat(CreateCatDTO cat) {
+    public CatDTO save(CreateCatDTO cat) {
         Owner ownerFromDB = ownerRepository.findById(cat.getOwnerId())
-                .orElseThrow(EntityNotFoundException::new);
+                .orElseThrow(() -> new EntityNotFoundException(Owner.class +
+                        " not found"));
+
         return toCatDto(catRepository.save(toCat(cat, ownerFromDB)));
     }
 
@@ -42,16 +46,17 @@ public class CatServiceImpl implements CatService {
     }
 
     @Override
-    public List<CatDTO> getAllCatsByOwnerId(long id) {
+    public List<CatDTO> getAllByOwnerId(long id) {
         return catRepository.getAllByOwnerId(id).stream()
                 .map(PetMapper::toCatDto)
                 .collect(toList());
     }
 
     @Override
-    public Cat getCatById(long id) {
+    public Cat getById(long id) {
         return catRepository.findById(id)
-                .orElseThrow(EntityNotFoundException::new);
+                .orElseThrow(() -> new EntityNotFoundException(Cat.class +
+                        " not found with " + id));
     }
 
 }

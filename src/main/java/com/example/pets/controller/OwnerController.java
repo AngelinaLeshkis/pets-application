@@ -2,6 +2,7 @@ package com.example.pets.controller;
 
 import com.example.pets.dto.CatDTO;
 import com.example.pets.dto.DogDTO;
+import com.example.pets.dto.OwnerDTO;
 import com.example.pets.dto.PetDTO;
 import com.example.pets.entity.Owner;
 import com.example.pets.service.CatService;
@@ -9,6 +10,7 @@ import com.example.pets.service.DogService;
 import com.example.pets.service.OwnerService;
 import com.example.pets.service.PetService;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -19,13 +21,12 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import javax.persistence.EntityNotFoundException;
 import java.util.List;
 
 import static org.springframework.http.HttpStatus.CREATED;
-import static org.springframework.http.HttpStatus.NO_CONTENT;
 import static org.springframework.http.HttpStatus.OK;
 
+@Slf4j
 @RestController
 @RequestMapping(value = "/owners")
 @RequiredArgsConstructor
@@ -37,86 +38,58 @@ public class OwnerController {
     private final PetService petService;
 
     @PostMapping
-    public ResponseEntity<Owner> saveOwner(@RequestBody Owner owner) {
-        return new ResponseEntity<>(ownerService.saveOwner(owner), CREATED);
+    public ResponseEntity<OwnerDTO> save(@RequestBody Owner owner) {
+        OwnerDTO savedOwner = ownerService.save((owner));
+        return new ResponseEntity<>(savedOwner, CREATED);
     }
 
     @PutMapping(value = "/{id}")
-    public ResponseEntity<Owner> updateOwner(@RequestBody Owner owner,
-                                             @PathVariable long id) {
-        try {
-            ownerService.updateOwner(owner, id);
-            return new ResponseEntity<>(owner, OK);
-        } catch (EntityNotFoundException ex) {
-            return new ResponseEntity<>(NO_CONTENT);
-        }
+    public ResponseEntity<OwnerDTO> update(@RequestBody Owner owner,
+                                           @PathVariable long id) {
+        OwnerDTO updatedOwner = ownerService.update(owner, id);
+        return new ResponseEntity<>(updatedOwner, OK);
     }
 
     @DeleteMapping(value = "/{id}")
-    public ResponseEntity<Object> deleteOwner(@PathVariable long id) {
-        try {
-            ownerService.deleteOwner(id);
-            return new ResponseEntity<>(OK);
-        } catch (EntityNotFoundException ex) {
-            return new ResponseEntity<>(ex.getMessage(), NO_CONTENT);
-        }
+    public ResponseEntity<Object> delete(@PathVariable long id) {
+        ownerService.delete(id);
+        return new ResponseEntity<>(OK);
     }
 
     @GetMapping
-    public ResponseEntity<List<Owner>> getAllOwners() {
-        try {
-            List<Owner> owners = ownerService.getAllOwners();
-            return new ResponseEntity<>(owners, OK);
-        } catch (EntityNotFoundException ex) {
-            return new ResponseEntity<>(NO_CONTENT);
-        }
+    public ResponseEntity<List<OwnerDTO>> getAll() {
+        List<OwnerDTO> owners = ownerService.getAll();
+        return new ResponseEntity<>(owners, OK);
     }
 
     @GetMapping(value = "/{id}")
-    public ResponseEntity<Owner> getOwnerById(@PathVariable long id) {
-        try {
-            return new ResponseEntity<>(ownerService.getOwnerById(id), OK);
-        } catch (EntityNotFoundException ex) {
-            return new ResponseEntity<>(NO_CONTENT);
-        }
+    public ResponseEntity<OwnerDTO> getById(@PathVariable long id) {
+        OwnerDTO savedOwner = ownerService.getById(id);
+        return new ResponseEntity<>(savedOwner, OK);
     }
 
     @GetMapping(value = "/pet/{id}")
-    public ResponseEntity<Owner> getOwnerByPetId(@PathVariable long id) {
-        try {
-            return new ResponseEntity<>(ownerService.getOwnerByPetId(id), OK);
-        } catch (EntityNotFoundException ex) {
-            return new ResponseEntity<>(NO_CONTENT);
-        }
+    public ResponseEntity<OwnerDTO> getByPetId(@PathVariable long id) {
+        OwnerDTO ownerFromDB = ownerService.getByPetId(id);
+        return new ResponseEntity<>(ownerFromDB, OK);
     }
 
     @GetMapping(value = "/{id}/dogs")
-    public ResponseEntity<List<DogDTO>> getAllDogsByOwnerId(@PathVariable long id) {
-        try {
-            List<DogDTO> dogs = dogService.getAllByOwnerId(id);
-            return new ResponseEntity<>(dogs, OK);
-        } catch (EntityNotFoundException ex) {
-            return new ResponseEntity<>(NO_CONTENT);
-        }
+    public ResponseEntity<List<DogDTO>> getDogsById(@PathVariable long id) {
+        List<DogDTO> dogs = dogService.getAllByOwnerId(id);
+        return new ResponseEntity<>(dogs, OK);
+
     }
 
     @GetMapping(value = "/{id}/cats")
-    public ResponseEntity<List<CatDTO>> getAllCatsByOwnerId(@PathVariable long id) {
-        try {
-            List<CatDTO> cats = catService.getAllCatsByOwnerId(id);
-            return new ResponseEntity<>(cats, OK);
-        } catch (EntityNotFoundException ex) {
-            return new ResponseEntity<>(NO_CONTENT);
-        }
+    public ResponseEntity<List<CatDTO>> getCatsById(@PathVariable long id) {
+        List<CatDTO> cats = catService.getAllByOwnerId(id);
+        return new ResponseEntity<>(cats, OK);
     }
 
     @GetMapping(value = "/{id}/pets")
-    public ResponseEntity<List<PetDTO>> getAllPetsByOwnerId(@PathVariable long id) {
-        try {
-            List<PetDTO> pets = petService.getPetsByOwnerId(id);
-            return new ResponseEntity<>(pets, OK);
-        } catch (EntityNotFoundException ex) {
-            return new ResponseEntity<>(NO_CONTENT);
-        }
+    public ResponseEntity<List<PetDTO>> getPetsById(@PathVariable long id) {
+        List<PetDTO> pets = petService.getAllByOwnerId(id);
+        return new ResponseEntity<>(pets, OK);
     }
 }
